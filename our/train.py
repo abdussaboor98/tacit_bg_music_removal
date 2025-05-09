@@ -19,9 +19,9 @@ from audio_datasets import FolderTripletDataset
 # Using torchmetrics for SI-SNR, PESQ, STOI
 import torchmetrics
 
-if torch.cuda.is_available() and torch.cuda.device_count() > 1:
-    print(f"Multiple GPUs detected ({torch.cuda.device_count()}). Setting to use GPU 2.")
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+# if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+#     print(f"Multiple GPUs detected ({torch.cuda.device_count()}). Setting to use GPU 2.")
+#     os.environ["CUDA_VISIBLE_DEVICES"] = "2"
     
 # --- Loss Functions ---
 
@@ -633,7 +633,11 @@ def train_sample_index(dataset, sample_index=-1):
 
 def train(args):
     """Main training loop (Modified for WFAE + Checkpoints + Max Batches)"""
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+        print(f"Multiple GPUs detected ({torch.cuda.device_count()}). Setting to use GPU 2.")
+        device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
     # --- Data ---

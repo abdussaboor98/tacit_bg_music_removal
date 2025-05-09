@@ -11,7 +11,7 @@ import time
 
 # Import model and other necessary components
 from model import MSHybridNet
-from audio_datasets import FolderTripletDataset
+from windowed_audio_datasets import FolderTripletDataset
 from torch.utils.data import DataLoader
 
 def load_model(checkpoint_path, device):
@@ -140,7 +140,11 @@ def batch_separate(dataset_dir, output_dir=None, checkpoint_path=None, split="te
         num_workers: Number of workers for dataloader
         max_files: Maximum number of files to process (None for all)
     """
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+        print(f"Found {torch.cuda.device_count()} GPUs. Using GPU 2")
+        device = torch.device("cuda:2")
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
     
     # Set default paths
@@ -169,7 +173,7 @@ def batch_separate(dataset_dir, output_dir=None, checkpoint_path=None, split="te
     # Create dataset and dataloader
     # Use a very large segment length (3600 seconds = 1 hour) instead of None
     # to ensure we process entire files while avoiding the None multiplication error
-    dataset = FolderTripletDataset(Path(dataset_dir), split=split, segment=10)
+    dataset = FolderTripletDataset(Path(dataset_dir), split=split, segment_length_sec=5, hop_length_sec=3)
     
     # Create a subset of the dataset if max_files is specified
     dataset_size = len(dataset)
