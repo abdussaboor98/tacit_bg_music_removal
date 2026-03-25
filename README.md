@@ -398,7 +398,3 @@ The TACIT and baseline training scripts automatically resume from the latest `ch
 3. Train TACIT with `our/train_with_recon.py`.
 4. Evaluate `best_model.pth` using `our/evaluate_model.py`.
 5. Train and evaluate the baselines for comparison.
-
-## 12. Citation
-
-If you want the README to include a formal citation block, paper title, author list, venue, DOI, or BibTeX entry, add those details and this section can be updated directly.
