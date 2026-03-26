@@ -3,7 +3,7 @@
 This repository contains code for the paper titled "TACIT: TCN And Conformer Integrated
 Two-stream model for Background Music Removal" (Accepted for publication, ICCAI 2026). 
 
-The main model, `TACIT` (`TCN And Conformer Integrated Two-stream`), separates an input mixture into:
+The main model, **TACIT** (**T**CN **A**nd **C**onformer **I**ntegrated **T**wo-stream), separates an input mixture into:
 
 - a `speech` target containing speech plus environmental/background noise
 - a `music` target containing the background music component
